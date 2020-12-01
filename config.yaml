@@ -1,0 +1,11 @@
+# Copyright 2020 Camille Rodriguez
+# See LICENSE file for licensing details.
+#
+# This is only an example, and you should edit to suit your needs.
+# If you don't need config, you can remove the file entirely.
+options:
+  networking-layer:
+    default: istio
+    description: |
+      Select the networking layer used in this Kubernetes cluster. The following values are accepted : Ambassador, Contour, Gloo, Istio, Kong and Kourier. The chosen component must be installed by the user, it is not deployed by this charm. It is the knative components that leverage this networking layer that are deployed by this charm.
+    type: string
