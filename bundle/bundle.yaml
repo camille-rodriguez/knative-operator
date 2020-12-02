@@ -1,0 +1,19 @@
+description: A charm bundle to deploy Knative in Kubernetes
+bundle: kubernetes
+applications:
+  controller:
+    charm: cs:~containers/knative-controller
+    scale: 1
+    options:
+      networking-layer: "istio"
+      deploy-serving: True
+      deploy-eventing: False
+  knative-activator:
+    charm: cs:~containers/knative-activator
+    scale: 1
+  knative-autoscaler:
+    charm: cs:~containers/knative-autoscaler
+    scale: 1
+  knative-webhook:
+    charm: cs:~containers/knative-webhook
+    scale: 1
