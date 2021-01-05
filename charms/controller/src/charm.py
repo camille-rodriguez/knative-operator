@@ -107,15 +107,9 @@ class KnativeOperatorCharm(CharmBase):
                                 'path': "metadata.namespace"
                             }
                         },
-                        'CONFIG_LOGGING_NAME':{
-                            'value': 'config-logging'                        
-                        },
-                        'CONFIG_OBSERVABILITY_NAME':{
-                            'value': 'config-observability'
-                        },
-                        'METRICS_DOMAIN':{
-                            'value': 'knative.dev/internal/serving'
-                        },
+                        'CONFIG_LOGGING_NAME':'config-logging',
+                        'CONFIG_OBSERVABILITY_NAME': 'config-observability',
+                        'METRICS_DOMAIN':'knative.dev/internal/serving',
                     },
                     'kubernetes': {
                         'securityContext': {
