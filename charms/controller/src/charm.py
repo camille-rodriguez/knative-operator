@@ -7,6 +7,8 @@ import json
 from hashlib import md5
 import yaml
 
+from oci_image import OCIImageResource, OCIImageResourceError
+
 from ops.charm import CharmBase
 from ops.framework import StoredState
 from ops.main import main
@@ -28,6 +30,7 @@ class KnativeOperatorCharm(CharmBase):
         if not self.unit.is_leader():
             self.unit.status = WaitingStatus("Waiting for leadership")
             return
+        self.image = OCIImageResource(self, 'knative-controller-image')
         self.framework.observe(self.on.install, self._on_start)
         self.framework.observe(self.on.config_changed, self._on_config_changed)
         # --- initialize states ---
@@ -46,6 +49,13 @@ class KnativeOperatorCharm(CharmBase):
         if self._stored.started:
             return
         self.unit.status = MaintenanceStatus("Installing Knative...")
+        try:
+            #image_info = self.image.fetch()
+            image_info = "gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:b2cd45b8a8a4747efbb24443240ac7836b1afc64207da837417862479d2e84c5"
+        except OCIImageResourceError:
+            logging.exception('An error occured while fetching the image info')
+            self.unit.status = BlockedStatus("Error fetching image information")
+            return
 
         self.model.pod.set_spec(
             {
@@ -83,43 +93,58 @@ class KnativeOperatorCharm(CharmBase):
                     'imageDetails': image_info,
                     'imagePullPolicy': 'Always',
                     'ports': [{
-                        'containerPort': 7472,
-                        'protocol': 'TCP',
-                        'name': 'monitoring'
-                    }],
-                    # TODO: add constraint fields once it exists in pod_spec
-                    # bug : https://bugs.launchpad.net/juju/+bug/1893123
-                    # 'resources': {
-                    #     'limits': {
-                    #         'cpu': '100m',
-                    #         'memory': '100Mi',
-                    #     }
-                    # },
+                        'containerPort': 9090,
+                        'name': 'metrics'
+                        },
+                        {
+                        'containerPort': 8008,
+                        'name': 'profiling'
+                        },
+                    ],
+                    'envConfig': {
+                        'POD_NAME':{
+                            'field': {
+                                'path': metadata.name
+                            }
+                        },
+                        'SYSTEM_NAMESPACE':{
+                            'field': {
+                                'path': metadata.namespace
+                            }
+                        },
+                        'CONFIG_LOGGING_NAME':{
+                            'value': 'config-logging'                        
+                        },
+                        'CONFIG_OBSERVABILITY_NAME':{
+                            'value': 'config-observability'
+                        },
+                        'METRICS_DOMAIN':{
+                            'value': 'knative.dev/internal/serving'
+                        },
+                    },
+                }],
                     'kubernetes': {
                         'securityContext': {
                             'privileged': False,
                             'runAsNonRoot': True,
-                            'runAsUser': 65534,
                             'readOnlyRootFilesystem': True,
                             'capabilities': {
                                 'drop': ['ALL']
                             }
                         },
-                        # fields do not exist in pod_spec
-                        # 'TerminationGracePeriodSeconds': 0,
                     },
                 }],
-                'service': {
-                    'annotations': {
-                        'prometheus.io/port': '7472',
-                        'prometheus.io/scrape': 'true'
-                    }
-                },
-                'configMaps': {
-                    'config': {
-                        'config': cm
-                    }
-                }
+                # 'service': {
+                #     'annotations': {
+                #         'prometheus.io/port': '7472',
+                #         'prometheus.io/scrape': 'true'
+                #     }
+                # },
+                # 'configMaps': {
+                #     'config': {
+                #         'config': cm
+                #     }
+                # }
             },
             k8s_resources={
             'kubernetesResources': {
