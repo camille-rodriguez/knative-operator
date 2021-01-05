@@ -66,32 +66,21 @@ class KnativeOperatorCharm(CharmBase):
             {
                 'version': 3,
                 'serviceAccount': {
-                    # 'roles': [{
-                    #     'global': True,
-                    #     'rules': [
-                    #         {
-                    #             'apiGroups': [''],
-                    #             'resources': ['services'],
-                    #             'verbs': ['get', 'list', 'watch', 'update'],
-                    #         },
-                    #         {
-                    #             'apiGroups': [''],
-                    #             'resources': ['services/status'],
-                    #             'verbs': ['update'],
-                    #         },
-                    #         {
-                    #             'apiGroups': [''],
-                    #             'resources': ['events'],
-                    #             'verbs': ['create', 'patch'],
-                    #         },
-                    #         {
-                    #             'apiGroups': ['policy'],
-                    #             'resourceNames': ['controller'],
-                    #             'resources': ['podsecuritypolicies'],
-                    #             'verbs': ['use'],
-                    #         },
-                    #     ],
-                    # }],
+                    'roles': [{
+                        'global': True,
+                        'rules': [
+                            {
+                                'apiGroups': ['serving.knative.dev'],
+                                'resources': ['*'],
+                                'verbs': ['*'],
+                            },
+                            {
+                                'apiGroups': ["networking.internal.knative.dev", "autoscaling.internal.knative.dev", "caching.internal.knative.dev"],
+                                'resources': ['*'],
+                                'verbs': ["get", "list", "watch"],
+                            },
+                        ],
+                    }],
                 },
                 'containers': [{
                     'name': 'controller',
