@@ -145,7 +145,6 @@ class KnativeOperatorCharm(CharmBase):
                 #     }
                 # }
             },
-            {
             k8s_resources={
             'kubernetesResources': {
                 'customResourceDefinitions': [
@@ -154,7 +153,6 @@ class KnativeOperatorCharm(CharmBase):
                 ],
             }
             }
-        }
         )
 
     def _on_config_changed(self, event):
