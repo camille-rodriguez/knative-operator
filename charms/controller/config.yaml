@@ -16,5 +16,6 @@ options:
     type: boolean
   deploy-eventing:
     default: false
+    type: boolean
     description: |
       Knative has two components, which can be installed and used independently or together. Eventing (stable @ v0.16) provides abstractions to enable binding event sources (e.g. Github Webhooks, Kafka) and consumers (e.g. Kubernetes or Knative Services).

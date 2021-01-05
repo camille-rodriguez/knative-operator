@@ -122,7 +122,6 @@ class KnativeOperatorCharm(CharmBase):
                             'value': 'knative.dev/internal/serving'
                         },
                     },
-                }],
                     'kubernetes': {
                         'securityContext': {
                             'privileged': False,
