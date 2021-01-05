@@ -7,7 +7,7 @@ import json
 from hashlib import md5
 import yaml
 
-from oci_image import OCIImageResource, OCIImageResourceError
+# from oci_image import OCIImageResource, OCIImageResourceError
 
 from ops.charm import CharmBase
 from ops.framework import StoredState
