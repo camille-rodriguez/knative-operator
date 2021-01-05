@@ -49,9 +49,9 @@ class KnativeOperatorCharm(CharmBase):
         if self._stored.started:
             return
         self.unit.status = MaintenanceStatus("Installing Knative...")
-        try:
+        # try:
             #image_info = self.image.fetch()
-            image_info = "gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:b2cd45b8a8a4747efbb24443240ac7836b1afc64207da837417862479d2e84c5"
+        image_info = "gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:b2cd45b8a8a4747efbb24443240ac7836b1afc64207da837417862479d2e84c5"
         # except OCIImageResourceError:
         #     logging.exception('An error occured while fetching the image info')
         #     self.unit.status = BlockedStatus("Error fetching image information")
@@ -145,6 +145,7 @@ class KnativeOperatorCharm(CharmBase):
                 #     }
                 # }
             },
+            {
             k8s_resources={
             'kubernetesResources': {
                 'customResourceDefinitions': [
@@ -153,6 +154,7 @@ class KnativeOperatorCharm(CharmBase):
                 ],
             }
             }
+        }
         )
 
     def _on_config_changed(self, event):
