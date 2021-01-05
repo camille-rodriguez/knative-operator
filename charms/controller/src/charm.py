@@ -6,6 +6,7 @@ import logging
 import json
 from hashlib import md5
 import os
+from pathlib import Path
 import yaml
 
 # from oci_image import OCIImageResource, OCIImageResourceError
