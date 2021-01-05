@@ -36,6 +36,7 @@ class KnativeOperatorCharm(CharmBase):
         self.framework.observe(self.on.config_changed, self._on_config_changed)
         # --- initialize states ---
         self._stored.set_default(config_hash=self._config_hash())
+        self._stored.set_default(started=False)
         # -- base values --
         self._stored.set_default(namespace=os.environ["JUJU_MODEL_NAME"])
 
