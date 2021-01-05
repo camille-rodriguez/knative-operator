@@ -40,7 +40,9 @@ class KnativeOperatorCharm(CharmBase):
 
     def _config_hash(self):
         data = json.dumps({
-            'iprange': self.model.config['iprange'],
+            'networking-layer': self.model.config['networking-layer'],
+            'deploy-serving':self.model.config['deploy-serving'],
+            'deploy-eventing':self.model.config['deploy-eventing'],
         }, sort_keys=True)
         return md5(data.encode('utf8')).hexdigest()
     
