@@ -95,7 +95,8 @@ class KnativeOperatorCharm(CharmBase):
                 },
                 'containers': [{
                     'name': 'controller',
-                    'imageDetails': image_info,
+                    'image': image_info,
+                    # 'imageDetails': image_info,
                     'imagePullPolicy': 'Always',
                     'ports': [{
                         'containerPort': 9090,
