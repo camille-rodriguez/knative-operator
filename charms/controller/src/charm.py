@@ -30,7 +30,7 @@ class KnativeOperatorCharm(CharmBase):
         if not self.unit.is_leader():
             self.unit.status = WaitingStatus("Waiting for leadership")
             return
-        self.image = OCIImageResource(self, 'knative-controller-image')
+        # self.image = OCIImageResource(self, 'knative-controller-image')
         self.framework.observe(self.on.install, self._on_start)
         self.framework.observe(self.on.config_changed, self._on_config_changed)
         # --- initialize states ---
@@ -52,10 +52,10 @@ class KnativeOperatorCharm(CharmBase):
         try:
             #image_info = self.image.fetch()
             image_info = "gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:b2cd45b8a8a4747efbb24443240ac7836b1afc64207da837417862479d2e84c5"
-        except OCIImageResourceError:
-            logging.exception('An error occured while fetching the image info')
-            self.unit.status = BlockedStatus("Error fetching image information")
-            return
+        # except OCIImageResourceError:
+        #     logging.exception('An error occured while fetching the image info')
+        #     self.unit.status = BlockedStatus("Error fetching image information")
+        #     return
 
         self.model.pod.set_spec(
             {
