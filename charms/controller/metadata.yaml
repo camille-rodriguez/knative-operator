@@ -1,6 +1,6 @@
 # Copyright 2020 Camille Rodriguez
 # See LICENSE file for licensing details.
-name: knative-operator
+name: knative-controller
 description: |
   Kubernetes-based platform to deploy and manage modern serverless workloads
 summary: |
