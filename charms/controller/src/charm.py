@@ -108,12 +108,12 @@ class KnativeOperatorCharm(CharmBase):
                     'envConfig': {
                         'POD_NAME':{
                             'field': {
-                                'path': metadata.name
+                                'path': "metadata.name"
                             }
                         },
                         'SYSTEM_NAMESPACE':{
                             'field': {
-                                'path': metadata.namespace
+                                'path': "metadata.namespace"
                             }
                         },
                         'CONFIG_LOGGING_NAME':{
