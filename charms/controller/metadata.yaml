@@ -1,11 +1,13 @@
 # Copyright 2020 Camille Rodriguez
 # See LICENSE file for licensing details.
-name: knative-controller
-display-name: Knative Controller
+name: serving-controller
+display-name: Knative Serving Controller
 description: |
   Kubernetes-based platform to deploy and manage modern serverless workloads
 summary: |
   Knative components build on top of Kubernetes, abstracting away the complex details and enabling developers to focus on what matters. Built by codifying the best practices shared by successful real-world implementations, Knative solves the "boring but difficult" parts of deploying and managing cloud native services so you don't have to.
+
+  Knative has two components: Serving and Eventing. This charm deploys the controller core of the Serving component.
 series:
   - kubernetes
 tags:

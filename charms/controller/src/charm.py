@@ -24,7 +24,7 @@ from ops.model import (
 logger = logging.getLogger(__name__)
 
 
-class KnativeOperatorCharm(CharmBase):
+class ServingControllerCharm(CharmBase):
     _stored = StoredState()
 
     def __init__(self, *args):
@@ -67,6 +67,8 @@ class KnativeOperatorCharm(CharmBase):
                 'version': 3,
                 'serviceAccount': {
                     'roles': [{
+                        # ClusterRole knative-serving-namespaced-admin
+                        'name': 'namespaced-admin',
                         'global': True,
                         'rules': [
                             {
@@ -80,7 +82,18 @@ class KnativeOperatorCharm(CharmBase):
                                 'verbs': ["get", "list", "watch"],
                             },
                         ],
-                    }],
+                    },
+                    {
+                    # ClusterRole knative-serving-admin
+                        'name': "admin",
+                        'global': True,
+                        'rules': [{
+                                'apiGroups': ['serving.knative.dev'],
+                                'resources': ['*'],
+                                'verbs': ['list'],
+                            },] # Rules are automatically filled in by the controller manager.
+                    }
+                ],
                 },
                 'containers': [{
                     'name': 'controller',
@@ -114,8 +127,8 @@ class KnativeOperatorCharm(CharmBase):
                     'kubernetes': {
                         'securityContext': {
                             'privileged': False,
-                            'runAsNonRoot': True,
                             'readOnlyRootFilesystem': True,
+                            'runAsNonRoot': True,
                             'capabilities': {
                                 'drop': ['ALL']
                             }
@@ -212,4 +225,4 @@ class KnativeOperatorCharm(CharmBase):
 
 
 if __name__ == "__main__":
-    main(KnativeOperatorCharm)
+    main(ServingControllerCharm)
