@@ -1,6 +1,7 @@
 # Copyright 2020 Camille Rodriguez
 # See LICENSE file for licensing details.
 name: knative-controller
+display-name: Knative Controller
 description: |
   Kubernetes-based platform to deploy and manage modern serverless workloads
 summary: |

@@ -128,15 +128,46 @@ class KnativeOperatorCharm(CharmBase):
                 #         'prometheus.io/scrape': 'true'
                 #     }
                 # },
-                # 'configMaps': {
-                #     'config': {
-                #         'config': cm
-                #     }
-                # }
+                'configMaps': {
+                    'config-autoscaler': {
+                        'example': open("files/configmaps/cm-autoscaler-example.txt").read()
+                    },
+                    'config-defaults': {
+                        'example': open("files/configmaps/cm-defaults-example.txt").read()
+                    },
+                    'config-deployment': {
+                        'example': open("files/configmaps/cm-deployment-example.txt").read(),
+                        'queueSidecarImage': 'gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:1a569afd4c34e285f6d647633925e2b684899bc8d01b4894047c90b75ca49357'
+                    },
+                    'config-domain': {
+                        'example': open("files/configmaps/cm-domain-example.txt").read()
+                    },
+                    'config-features': {
+                        'example': open("files/configmaps/cm-features-example.txt").read()
+                    },
+                    'config-gc': {
+                        'example': open("files/configmaps/cm-gc-example.txt").read()
+                    },
+                    'config-leader-election': {
+                        'example': open("files/configmaps/cm-leader-election-example.txt").read()
+                    },
+                    'config-logging': {
+                        'example': open("files/configmaps/cm-logging-example.txt").read()
+                    },
+                    'config-network': {
+                        'example': open("files/configmaps/cm-network-example.txt").read()
+                    },
+                    'config-observability': {
+                        'example': open("files/configmaps/cm-observability-example.txt").read()
+                    },
+                    'config-tracing': {
+                        'example': open("files/configmaps/cm-tracing-example.txt").read()
+                    },
+                }
             },
 
             k8s_resources=self.k8s_resources_fixed()
-            
+            # Workaround for bug LP:1910820
             # {
             # 'kubernetesResources': {
             #     'customResourceDefinitions': [
