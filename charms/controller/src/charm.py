@@ -160,8 +160,10 @@ class KnativeOperatorCharm(CharmBase):
                 ]
             }
         }
-        for field in fields_to_remove:
-            k8s_resources_fixed['kubernetesResources']['customResourceDefinitions'][0]['spec']['versions'][0].pop(field)
+        for i in range(0,len(k8s_resources_fixed['kubernetesResources']['customResourceDefinitions'])):
+            for field in fields_to_remove:
+                k8s_resources_fixed['kubernetesResources']['customResourceDefinitions'][i]['spec']['versions'][0].pop(field)
+
 
         return k8s_resources_fixed
 
