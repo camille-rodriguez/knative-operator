@@ -173,7 +173,7 @@ class ServingWebhookCharm(CharmBase):
                             ]
                         }
                     ],
-                    'ValidatingWebhookConfiguration': [
+                    'ValidatingWebhookConfigurations': [
                         {
                             'name': 'knative-validation-webhook-config',
                             'webhooks': [
