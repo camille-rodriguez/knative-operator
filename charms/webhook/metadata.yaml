@@ -1,0 +1,21 @@
+name: serving-webhook
+display-name: Knative Serving Webhook
+description: |
+  Kubernetes-based platform to deploy and manage modern serverless workloads
+summary: |
+  Knative components build on top of Kubernetes, abstracting away the complex details and enabling developers to focus on what matters. Built by codifying the best practices shared by successful real-world implementations, Knative solves the "boring but difficult" parts of deploying and managing cloud native services so you don't have to.
+
+  Knative has two components: Serving and Eventing. This charm deploys the webhook  of the Serving component.
+series:
+  - kubernetes
+tags:
+  - kubernetes
+  - knative
+deployment:
+  type: stateless
+# resources:
+#   knative-activator-image:
+#     type: oci-image
+#     description: |
+#       Go import path for the binary that is containerized and substituted here.
+#     upstream-source: 'gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:1e3db4f2eeed42d3ef03f41cc3d07c333edab92af3653a530d6d5f370da96ab6' 
