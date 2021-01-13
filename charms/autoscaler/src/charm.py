@@ -76,7 +76,6 @@ class ServingAutoscalerCharm(CharmBase):
                         },
                     ],
                     'envConfig': {
-                        'GOGC': '500',
                         'POD_NAME':{
                             'field': {
                                 'path': "metadata.name"
