@@ -71,8 +71,7 @@ class ServingWebhookCharm(CharmBase):
                         'name': 'profiling'
                         },
                         {
-                        'containerPort': 443,
-                        'targetPort': 8443,
+                        'containerPort': 8443,
                         'name': 'https-webhook'
                         },
                     ],
@@ -129,16 +128,41 @@ class ServingWebhookCharm(CharmBase):
             },
             k8s_resources={
                 'kubernetesResources': {
+                    'services': [
+                        {
+                            'name': 'webhook',
+                            'spec': {
+                                'ports': [
+                                    {
+                                        'name': 'http-metrics',
+                                        'port': 9090,
+                                        'targetPort': 9090,
+                                    },
+                                    {
+                                        'name': 'http-profiling',
+                                        'port': 8008,
+                                        'targetPort': 8008,
+                                    },
+                                    {
+                                        'name': 'https-webhook',
+                                        'port': 443,
+                                        'targetPort': 8443,
+                                    }
+                                ],
+                                'selector': {'role': 'webhook'},
+                            }
+                        }
+                    ],
                     'mutatingWebhookConfigurations': [
                         {
-                            'name': 'webhook.serving.knative.dev',
+                            'name': 'knative-mutating-webhook-config',
                             'webhooks': [
                                 {
                                     'name': 'webhook.serving.knative.dev',
                                     'clientConfig': {
                                         'service': {
                                             'name': 'webhook',
-                                            'namespace': 'knative-serving',#NAMESPACE
+                                            'namespace': self._stored.namespace,
                                         }
                                     },
                                     'admissionReviewVersions': ["v1", "v1beta1"],
@@ -146,12 +170,19 @@ class ServingWebhookCharm(CharmBase):
                                     'sideEffects': 'None',
                                     'timeoutSeconds': 10,
                                 },
+                            ]
+                        }
+                    ],
+                    'ValidatingWebhookConfiguration': [
+                        {
+                            'name': 'knative-validation-webhook-config',
+                            'webhooks': [
                                 {
                                     'name': 'validation.webhook.serving.knative.dev',
                                     'clientConfig': {
                                         'service': {
                                             'name': 'webhook',
-                                            'namespace': 'knative-serving',#NAMESPACE
+                                            'namespace': self._stored.namespace,
                                         }
                                     },
                                     'admissionReviewVersions': ["v1", "v1beta1"],
