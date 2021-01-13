@@ -213,8 +213,7 @@ class ServingControllerCharm(CharmBase):
     def _on_config_changed(self, event):
         net_choices = ['ambassador', 'contour', 'gloo', 'istio', 'kong', 'kourier']
         if self.model.config['networking-layer'].lower() not in net_choices:
-            self.unit.status = BlockedStatus('Invalid protocol; '
-                                             'only "layer2" currently supported')
+            self.unit.status = BlockedStatus('Invalid networking layer selected')
             return
         current_config_hash = self._config_hash()
         if current_config_hash != self._stored.config_hash:
