@@ -188,6 +188,7 @@ class ServingControllerCharm(CharmBase):
             # }
             # }
         )
+        self.unit.status = ActiveStatus("Ready")
 
     def k8s_resources_fixed(self):
         #Workaround for bug LP:1910820
