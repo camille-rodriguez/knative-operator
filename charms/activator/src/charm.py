@@ -110,30 +110,66 @@ class ServingActivatorCharm(CharmBase):
                             }
                         },
                         # WIP on the probes : container currently crash when probes are enabled
-                        # 'readinessProbe': {
-                        #     'httpGet': {
-                        #         'port': 8012,
-                        #         'httpHeaders': [{
-                        #             'name': 'k-kubelet-probe',
-                        #             'value': 'activator',
-                        #         }],
-                        #     },
-                        #     'failureThreshold': 12
-                        # },
-                        # 'livenessProbe': {
-                        #     'initialDelaySeconds': 15,
-                        #     'failureThreshold': 12,
-                        #     'httpGet': {
-                        #         'port': 8012,
-                        #         'httpHeaders': [{
-                        #             'name': 'k-kubelet-probe',
-                        #             'value': 'activator',
-                        #         }],
-                        #     }
-                        # }
+                        'readinessProbe': {
+                            'httpGet': {
+                                'port': 8012,
+                                'httpHeaders': [{
+                                    'name': 'k-kubelet-probe',
+                                    'value': 'activator',
+                                }],
+                            },
+                            'failureThreshold': 12
+                        },
+                        'livenessProbe': {
+                            'initialDelaySeconds': 15,
+                            'failureThreshold': 12,
+                            'httpGet': {
+                                'port': 8012,
+                                'httpHeaders': [{
+                                    'name': 'k-kubelet-probe',
+                                    'value': 'activator',
+                                }],
+                            }
+                        }
                     },
                 }],
             },
+            k8s_resources={
+                'kubernetesResources': {
+                    'services': [
+                        {
+                            # Need to create a 2nd service because of bug 
+                            # lp:https://bugs.launchpad.net/juju/+bug/1902000
+                            'name': 'activator-service',
+                            'spec': {
+                                'ports': [
+                                    {
+                                        'name': 'http-metrics',
+                                        'port': 9090,
+                                        'targetPort': 9090,
+                                    },
+                                    {
+                                        'name': 'http-profiling',
+                                        'port': 8008,
+                                        'targetPort': 8008,
+                                    },
+                                    {
+                                        'name': 'http',
+                                        'port': 80,
+                                        'targetPort': 8012,
+                                    },
+                                    {
+                                        'name': 'http2',
+                                        'port': 81,
+                                        'targetPort': 8013,
+                                    }
+                                ],
+                                'selector': {'app': 'activator'},
+                            }
+                        }
+                    ],
+                }
+            }
         )
         self.unit.status = ActiveStatus("Ready")
 

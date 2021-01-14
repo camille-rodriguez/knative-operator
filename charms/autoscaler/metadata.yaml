@@ -1,4 +1,4 @@
-name: serving-autoscaler
+name: autoscaler
 display-name: Knative Serving Autoscaler
 description: |
   Kubernetes-based platform to deploy and manage modern serverless workloads

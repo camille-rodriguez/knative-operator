@@ -2,24 +2,12 @@
 
 ## Description
 
-This charm deploys knative on any kubernetes cluster managed by Juju. 
+This charm deploys Knative on any kubernetes cluster managed by Juju. 
+
+Knative components build on top of Kubernetes, abstracting away the complex details and enabling developers to focus on what matters. Built by codifying the best practices shared by successful real-world implementations, Knative solves the "boring but difficult" parts of deploying and managing cloud native services so you don't have to.
 
 ## Usage
 
-TODO: Provide high-level usage, such as required config or relations
+Knative is composed of two components: Serving and Eventing. This charm currently supports the deployment of the Eventing components. Eventing is composed of 4 charms : controller, activator, autoscaler and webhook.
 
-
-## Developing
-
-Create and activate a virtualenv with the development requirements:
-
-    virtualenv -p python3 venv
-    source venv/bin/activate
-    pip install -r requirements-dev.txt
-
-## Testing
-
-The Python operator framework includes a very nice harness for testing
-operator behaviour without full deployment. Just `run_tests`:
-
-    ./run_tests
+The choice of networking layer is a feature in progress. Currently, istio is the only networking layer supported by the charms.
