@@ -184,6 +184,19 @@ class ServingWebhookCharm(CharmBase):
                             'name': 'knative-validation-webhook-config',
                             'webhooks': [
                                 {
+                                    'name': 'config.webhook.serving.knative.dev',
+                                    'clientConfig': {
+                                        'service': {
+                                            'name': 'webhook',
+                                            'namespace': self._stored.namespace,
+                                        }
+                                    },
+                                    'admissionReviewVersions': ["v1", "v1beta1"],
+                                    'failurePolicy': 'Fail',
+                                    'sideEffects': 'None',
+                                    'timeoutSeconds': 10,
+                                },
+                                {
                                     'name': 'validation.webhook.serving.knative.dev',
                                     'clientConfig': {
                                         'service': {
