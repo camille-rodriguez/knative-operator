@@ -109,7 +109,6 @@ class ServingActivatorCharm(CharmBase):
                                 'drop': ['ALL']
                             }
                         },
-                        # WIP on the probes : container currently crash when probes are enabled
                         'readinessProbe': {
                             'httpGet': {
                                 'port': 8012,
