@@ -128,6 +128,11 @@ class ServingWebhookCharm(CharmBase):
             },
             k8s_resources={
                 'kubernetesResources': {
+                    'secrets': [
+                        {
+                            'name': 'webhook-certs',
+                        }
+                    ],
                     'services': [
                         {
                             'name': 'webhook',
