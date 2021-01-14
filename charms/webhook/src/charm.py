@@ -130,6 +130,7 @@ class ServingWebhookCharm(CharmBase):
                 'kubernetesResources': {
                     'secrets': [
                         {
+                            # The data is populated at install time.
                             'name': 'webhook-certs',
                         }
                     ],
