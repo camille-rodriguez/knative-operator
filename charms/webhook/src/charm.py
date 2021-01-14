@@ -128,6 +128,41 @@ class ServingWebhookCharm(CharmBase):
             },
             k8s_resources={
                 'kubernetesResources': {
+                    # This type of resource is not supported by the pod_spec
+                    # 'PodDisruptionBudget': [
+                    #     {
+                    #         'name':'webhook-pdb',
+                    #         'spec': {
+                    #             'minAvailable': '80%',
+                    #             'selector': {
+                    #                 'matchLabels': {
+                    #                     'app': 'webhook'
+                    #                 }
+                    #             }
+                    #         }
+                    #     }
+                    # ],
+                    # Same for 
+                    # apiVersion: autoscaling/v2beta1
+                    # kind: HorizontalPodAutoscaler
+                    # metadata:
+                    #   name: webhook
+                    #   namespace: knative-serving
+                    #   labels:
+                    #     serving.knative.dev/release: "v0.19.0"
+                    # spec:
+                    #   minReplicas: 1
+                    #   maxReplicas: 5
+                    #   scaleTargetRef:
+                    #     apiVersion: apps/v1
+                    #     kind: Deployment
+                    #     name: webhook
+                    #   metrics:
+                    #     - type: Resource
+                    #       resource:
+                    #         name: cpu
+                    #         # Percentage of the requested CPU
+                    #         targetAverageUtilization: 100
                     'secrets': [
                         {
                             # The data is populated at install time.
@@ -136,6 +171,8 @@ class ServingWebhookCharm(CharmBase):
                     ],
                     'services': [
                         {
+                            # Need to create a 2nd service because of bug 
+                            # lp:https://bugs.launchpad.net/juju/+bug/1902000
                             'name': 'webhook',
                             'spec': {
                                 'ports': [
@@ -162,6 +199,9 @@ class ServingWebhookCharm(CharmBase):
                     'mutatingWebhookConfigurations': [
                         {
                             'name': 'knative-mutating-webhook-config',
+                            'annotations': {
+                                'juju.io/disable-name-prefix': 'true',
+                            },
                             'webhooks': [
                                 {
                                     'name': 'webhook.serving.knative.dev',
@@ -182,6 +222,9 @@ class ServingWebhookCharm(CharmBase):
                     'ValidatingWebhookConfigurations': [
                         {
                             'name': 'knative-validation-webhook-config',
+                            'annotations': {
+                                'juju.io/disable-name-prefix': 'true',
+                            },
                             'webhooks': [
                                 {
                                     'name': 'config.webhook.serving.knative.dev',
